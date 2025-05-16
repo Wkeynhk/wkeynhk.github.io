@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои Источники</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Стили для навигации */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-buttons .btn {
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="menu-backdrop"></div>
+    
+    <header>
+        <div class="logo">
+            <span class="logo-text">Wkeynhk Source</span>
+        </div>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Мои Источники</a></li>
+                <li><a href="contact.html">Предложить сайт</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="source-section">
+            <h1>Мои Источники</h1>
+            <div class="source-container">
+                <div class="source-card">
+                    <div class="source-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h2>Rutor+RuTracker</h2>
+                    <p>Огромная база данных из <strong>61382</strong> игр для всех популярных игровых платформ.</p>
+                    <div class="button-group">
+                        <button class="btn btn-secondary copy-btn" data-url="https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                        <button class="btn btn-primary install-btn" data-url="https://raw.githubusercontent.com/Wkeynhk/Rutor/refs/heads/main/rutor.json" data-name="Rutor+RuTracker">
+                            <i class="fas fa-download"></i> Установить
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="source-card">
+                    <div class="source-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h2>FreeTP (Beta)</h2>
+                    <p>Коллекция из <strong>1800</strong> отборных игр в бета-версии. Постоянно пополняется новыми играми.</p>
+                    <div class="button-group">
+                        <button class="btn btn-secondary copy-btn" data-url="https://raw.githubusercontent.com/Wkeynhk/FreeTp/refs/heads/main/freetp.json">
+                            <i class="fas fa-copy"></i> Копировать
+                        </button>
+                        <button class="btn btn-primary install-btn" data-url="https://raw.githubusercontent.com/Wkeynhk/FreeTp/refs/heads/main/freetp.json" data-name="FreeTP+Beta">
+                            <i class="fas fa-download"></i> Установить
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="source-info">
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Об источниках</h3>
+                    <p>Нажмите кнопку "Установить" для автоматического добавления источника в Hydra Launcher. Источник будет автоматически установлен в приложении.</p>
+                </div>
+            </div>
+            
+            <div class="nav-buttons">
+                <a href="contact.html" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Предложить сайт
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p></p>
+        </div>
+    </footer>
+
+    <script src="animations.js"></script>
+    <script>
+        // Функция для показа уведомления
+        function showNotification(message, type = 'success') {
+            // Создаем элемент уведомления если его нет
+            let notification = document.getElementById('notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'notification';
+                document.body.appendChild(notification);
+            }
+            
+            // Добавляем класс типа уведомления
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Показываем уведомление
+            notification.style.display = 'block';
+            
+            // Анимация появления
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Скрываем через 3 секунды
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+        
+        // Добавляем функционал копирования
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const url = button.getAttribute('data-url');
+                navigator.clipboard.writeText(url)
+                    .then(() => {
+                        showNotification('Ссылка скопирована в буфер обмена!');
+                    })
+                    .catch(err => {
+                        showNotification('Ошибка при копировании ссылки', 'error');
+                        console.error('Ошибка при копировании: ', err);
+                    });
+            });
+        });
+        
+        // Асинхронная функция для установки источника
+        async function installSource(url, name) {
+            try {
+                // Показываем уведомление о начале установки
+                showNotification('Установка источника в Hydra Launcher...');
+                
+                // Кодируем URL источника
+                const encodedUrl = encodeURIComponent(url);
+                
+                // Создаем правильный URL-схему для Hydra Launcher
+                const hydraUrl = `hydralauncher://install-source?urls=${encodedUrl}`;
+                
+                // Открываем Hydra Launcher с командой установки источника
+                window.location.href = hydraUrl;
+                
+                // Копируем URL в буфер обмена на случай, если автоматическая установка не сработает
+                await navigator.clipboard.writeText(url);
+                
+                // Показываем уведомление об успешной отправке команды
+                setTimeout(() => {
+                    showNotification('Команда установки отправлена!');
+                }, 1000);
+            } catch (error) {
+                showNotification('Ошибка при установке источника', 'error');
+                console.error('Ошибка установки: ', error);
+            }
+        }
+        
+        // Добавляем функциональность для кнопок установки
+        document.querySelectorAll('.install-btn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const url = button.getAttribute('data-url');
+                const name = button.getAttribute('data-name');
+                
+                // Изменяем кнопку во время установки
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Установка...';
+                button.disabled = true;
+                
+                // Запускаем установку источника
+                await installSource(url, name);
+                
+                // Возвращаем исходный вид кнопки через 2 секунды
+                setTimeout(() => {
+                    button.innerHTML = originalHTML;
+                    button.disabled = false;
+                }, 2000);
+            });
+        });
+        
+        // Анимация при наведении на кнопки
+        document.querySelectorAll('.install-btn').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                if (!button.disabled) {
+                    button.innerHTML = '<i class="fas fa-rocket"></i> Установить';
+                }
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                if (!button.disabled) {
+                    button.innerHTML = '<i class="fas fa-download"></i> Установить';
+                }
+            });
+        });
+        
+        // Простое управление мобильным меню
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuBackdrop = document.querySelector('.menu-backdrop');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        menuBackdrop.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Эффект прокрутки для шапки
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Предложить сайт - Wkeynhk Source</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background-color: rgba(20, 20, 25, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            font-family: var(--font-main);
+            resize: vertical;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(79, 79, 255, 0.2);
+        }
+        
+        .contact-section h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 200px;
+            margin: 2rem auto 0;
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        /* Стили для навигации */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .nav-buttons .btn {
+            min-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    <div class="menu-backdrop"></div>
+    
+    <header>
+        <div class="logo">
+            <span class="logo-text">Wkeynhk Source</span>
+        </div>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Мои Источники</a></li>
+                <li><a href="contact.html" class="active">Предложить сайт</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section">
+            <h1>Предложить сайт</h1>
+            
+            <form id="contactForm" class="contact-form" action="https://formsubmit.co/wkeynhk@mail.ru" method="POST">
+                <!-- Скрытые поля для FormSubmit -->
+                <input type="hidden" name="_subject" value="Новое предложение сайта - Wkeynhk Source">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="https://wkeynhk.github.io/thanks.html">
+                <input type="hidden" name="_autoresponse" value="Спасибо за ваше предложение! Мы получили его и рассмотрим в ближайшее время.">
+                
+                <div class="form-group">
+                    <label for="nickname">Ваш никнейм</label>
+                    <input type="text" id="nickname" name="nickname" required placeholder="Введите ваш никнейм">
+                </div>
+                
+                <div class="form-group">
+                    <label for="website">Сайт</label>
+                    <input type="url" id="website" name="website" placeholder="https://пример.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Сообщение (необязательно)</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Дополнительная информация..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Отправить
+                </button>
+            </form>
+            
+            <div class="nav-buttons">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Вернуться к источникам
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p></p>
+        </div>
+    </footer>
+
+    <script src="animations.js"></script>
+    <script>
+        // Функция для показа уведомления
+        function showNotification(message, type = 'success') {
+            // Создаем элемент уведомления если его нет
+            let notification = document.getElementById('notification');
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'notification';
+                document.body.appendChild(notification);
+            }
+            
+            // Добавляем класс типа уведомления
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            // Показываем уведомление
+            notification.style.display = 'block';
+            
+            // Анимация появления
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Скрываем через 3 секунды
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 300);
+            }, 3000);
+        }
+
+        // Проверка обязательных полей перед отправкой
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            const nickname = document.getElementById('nickname').value;
+            if (!nickname) {
+                e.preventDefault();
+                showNotification('Пожалуйста, укажите ваш никнейм', 'error');
+                return false;
+            }
+            
+            // Показываем уведомление об отправке
+            showNotification('Отправка сообщения...');
+            
+            // Меняем текст кнопки
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+            submitBtn.disabled = true;
+            
+            // Продолжаем отправку формы
+            return true;
+        });
+        
+        // Простое управление мобильным меню
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        const menuBackdrop = document.querySelector('.menu-backdrop');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+        });
+        
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        menuBackdrop.addEventListener('click', function() {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Эффект прокрутки для шапки
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Анимация для полей ввода
+        const inputs = document.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentNode.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentNode.classList.remove('focused');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
