@@ -603,48 +603,42 @@ main {
     }
 }
 
-/* Секция источники - обновленный дизайн */
-.source-section {
-    padding: 4rem 5%;
-    text-align: center;
-    position: relative;
+/* Стили для отображения количества игр */
+.games-count {
+    background-color: rgba(0, 200, 83, 0.2);
+    border-radius: 12px;
+    padding: 0.6rem 1rem;
+    margin: 0.5rem auto 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(0, 200, 83, 0.2);
+    transition: all 0.3s ease;
 }
 
-.source-section h1 {
-    font-size: 2.8rem;
-    margin-bottom: 3rem;
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+.count-number {
+    color: var(--accent-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-right: 0.5rem;
     letter-spacing: 1px;
-    text-transform: uppercase;
 }
 
-.source-section h1::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
-    border-radius: 2px;
+.count-label {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
-.source-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    margin-top: 3.5rem;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+.source-card:hover .games-count {
+    transform: scale(1.05);
+    background-color: rgba(0, 200, 83, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 200, 83, 0.2);
 }
 
+/* Обновленные стили для карточек источников */
 .source-card {
     background-color: rgba(30, 30, 35, 0.7);
     border-radius: 16px;
@@ -660,6 +654,7 @@ main {
     animation-delay: calc(0.2s * var(--i, 1));
     position: relative;
     overflow: hidden;
+    text-align: center;
 }
 
 .source-card::before {
@@ -1032,4 +1027,46 @@ footer {
     .thank-you-title {
         font-size: 1.7rem;
     }
+}
+
+/* Секция источники - обновленный дизайн */
+.source-section {
+    padding: 4rem 5%;
+    text-align: center;
+    position: relative;
+}
+
+.source-section h1 {
+    font-size: 2.8rem;
+    margin-bottom: 3rem;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.source-section h1::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+}
+
+.source-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-top: 3.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 } 
