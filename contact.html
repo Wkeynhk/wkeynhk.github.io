@@ -111,8 +111,8 @@
                 <input type="hidden" name="_autoresponse" value="Спасибо за ваше предложение! Мы получили его и рассмотрим в ближайшее время.">
                 
                 <div class="form-group">
-                    <label for="nickname">Ваш никнейм</label>
-                    <input type="text" id="nickname" name="nickname" required placeholder="Введите ваш никнейм">
+                    <label for="nickname">Ваш никнейм в Discord</label>
+                    <input type="text" id="nickname" name="nickname" required placeholder="Введите ваш никнейм в Discord">
                 </div>
                 
                 <div class="form-group">
@@ -182,7 +182,7 @@
             const nickname = document.getElementById('nickname').value;
             if (!nickname) {
                 e.preventDefault();
-                showNotification('Пожалуйста, укажите ваш никнейм', 'error');
+                showNotification('Пожалуйста, укажите ваш никнейм в Discord', 'error');
                 return false;
             }
             
