@@ -172,7 +172,7 @@
         }
 
         // Обработчик кнопки отправки
-        document.getElementById('submitBtn').addEventListener('click', function() {
+        document.getElementById('submitBtn').addEventListener('click', async function() {
             const nickname = document.getElementById('nickname').value;
             if (!nickname) {
                 showNotification('Пожалуйста, укажите ваш никнейм в Discord', 'error');
@@ -191,16 +191,16 @@
             const form = document.getElementById('contactForm');
             const formData = new FormData(form);
             
-            // Отправка сообщения в Telegram через прокси (для обхода CORS)
-            sendToTelegramViaCorsProxy(formData).then(result => {
-                if (!result) {
-                    // Если отправка в Telegram не удалась, показываем уведомление об ошибке
-                    showNotification('Ошибка при отправке сообщения', 'error');
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить';
-                    submitBtn.disabled = false;
-                } else {
+            // Пробуем сначала отправить через прокси
+            console.log('Пробуем отправить сообщение через прокси...');
+            
+            try {
+                // Отправка сообщения в Telegram через прокси (для обхода CORS)
+                const proxyResult = await sendToTelegramViaCorsProxy(formData);
+                
+                if (proxyResult) {
                     // Если отправка успешна, показываем уведомление об успехе
-                    showNotification('Сообщение успешно отправлено', 'success');
+                    showNotification('Сообщение успешно отправлено!', 'success');
                     
                     // Очищаем форму
                     form.reset();
@@ -209,13 +209,110 @@
                     setTimeout(() => {
                         window.location.href = "thanks.html";
                     }, 1500);
+                    
+                    return;
                 }
-            }).catch(error => {
-                console.error('Ошибка при отправке в Telegram:', error);
-                showNotification('Ошибка при отправке сообщения', 'error');
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить';
-                submitBtn.disabled = false;
-            });
+            } catch (proxyError) {
+                console.error('Ошибка при отправке через прокси:', proxyError);
+            }
+            
+            // Если прокси не сработал, пробуем прямую отправку
+            console.log('Пробуем прямую отправку...');
+            
+            try {
+                const directResult = await sendToTelegram(formData);
+                
+                if (directResult) {
+                    // Если отправка успешна, показываем уведомление об успехе
+                    showNotification('Сообщение успешно отправлено!', 'success');
+                    
+                    // Очищаем форму
+                    form.reset();
+                    
+                    // Перенаправляем на страницу благодарности через 1.5 секунды
+                    setTimeout(() => {
+                        window.location.href = "thanks.html";
+                    }, 1500);
+                    
+                    return;
+                }
+            } catch (directError) {
+                console.error('Ошибка при прямой отправке:', directError);
+            }
+            
+            // Если обе попытки не удались, пробуем отправить через API TelegramWebhook
+            console.log('Пробуем отправить через API...');
+            
+            // Подготавливаем данные для отправки
+            const telegramData = {
+                bot_token: '7963381947:AAFiAjpCQBqBPCLLMw8V6x1gWbW1TdleXMc',
+                chat_id: '7963381947',
+                nickname: formData.get('nickname') || 'Не указан',
+                website: formData.get('website') || 'Не указан',
+                message: formData.get('message') || 'Не указано'
+            };
+            
+            // Отправляем напрямую без прокси
+            try {
+                // Создаем iframe для отправки запроса без CORS ограничений
+                const iframeId = 'telegram-sender-iframe';
+                let iframe = document.getElementById(iframeId);
+                
+                if (!iframe) {
+                    iframe = document.createElement('iframe');
+                    iframe.id = iframeId;
+                    iframe.name = iframeId;
+                    iframe.style.display = 'none';
+                    document.body.appendChild(iframe);
+                }
+                
+                // Создаем форму в iframe
+                const tempForm = document.createElement('form');
+                tempForm.action = 'https://api.telegram.org/bot' + telegramData.bot_token + '/sendMessage';
+                tempForm.method = 'GET';
+                tempForm.target = iframeId;
+                
+                // Добавляем поля
+                const chatIdField = document.createElement('input');
+                chatIdField.name = 'chat_id';
+                chatIdField.value = telegramData.chat_id;
+                tempForm.appendChild(chatIdField);
+                
+                const textField = document.createElement('input');
+                textField.name = 'text';
+                textField.value = `🌐 Новая заявка с сайта!\n\n👤 Discord: ${telegramData.nickname}\n🔗 Сайт: ${telegramData.website}\n💬 Сообщение: ${telegramData.message}`;
+                tempForm.appendChild(textField);
+                
+                document.body.appendChild(tempForm);
+                
+                // Отправляем форму
+                tempForm.submit();
+                
+                // Удаляем временную форму
+                setTimeout(() => {
+                    document.body.removeChild(tempForm);
+                }, 1000);
+                
+                // Показываем уведомление об успехе
+                showNotification('Сообщение отправлено! (метод 3)', 'success');
+                
+                // Очищаем форму
+                form.reset();
+                
+                // Перенаправляем на страницу благодарности через 1.5 секунды
+                setTimeout(() => {
+                    window.location.href = "thanks.html";
+                }, 1500);
+                
+                return;
+            } catch (apiError) {
+                console.error('Ошибка при отправке через API:', apiError);
+            }
+            
+            // Если все попытки не удались, показываем ошибку
+            showNotification('Не удалось отправить сообщение. Пожалуйста, попробуйте позже.', 'error');
+            submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить';
+            submitBtn.disabled = false;
         });
         
         // Простое управление мобильным меню
