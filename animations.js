@@ -1,31 +1,142 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Создаем эффект параллакса при движении мыши
-    document.addEventListener('mousemove', parallaxEffect);
+    // Минимальный набор функций без анимаций
     
-    // Добавляем анимацию при скролле
-    window.addEventListener('scroll', scrollAnimation);
+    // Отключаем все анимации, в том числе параллакс
+    // document.addEventListener('mousemove', safeParallaxEffect);
     
-    // Инициализируем анимацию карточек источников
-    initializeSourceCards();
+    // Отключаем анимацию при скролле
+    // window.addEventListener('scroll', enhancedScrollAnimation);
     
-    // Добавляем анимацию при наведении на кнопки
-    initializeButtonEffects();
+    // Оставляем только простые эффекты для взаимодействия (при наведении)
+    initializeButtonHoverEffects();
     
-    // Добавляем частицы на фон
-    createParticles();
+    // Отключаем создание частиц
+    // createLightParticles();
     
-    // Добавляем анимацию для информационного блока
-    animateInfoBox();
+    // Отключаем анимации для информационного блока
+    // animateInfoBoxImmediate();
     
-    // Добавляем эффект пульсации для кнопок установки
-    animateInstallButtons();
+    // Оставляем простые эффекты для кнопок, но без сложных анимаций
+    initializeSimpleInstallButtons();
     
-    // Анимация для логотипа
-    animateLogo();
+    // Отключаем лишние анимации для логотипа
+    // animateLogo();
+    
+    // Мгновенно отображаем все элементы
+    showAllElementsImmediately();
 });
+
+// Максимально упрощенная функция отображения элементов
+function showAllElementsImmediately() {
+    document.querySelectorAll('.source-card, .btn, .info-box, .contact-form, .thank-you-container').forEach(element => {
+        if (element) {
+            element.style.opacity = '1';
+            element.style.transform = 'none';
+            // Не добавляем класс show, так как он может иметь анимации
+        }
+    });
+}
+
+// Упрощенная функция для кнопок - только hover эффекты без анимаций
+function initializeButtonHoverEffects() {
+    const buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(button => {
+        // Не добавляем ripple-эффект
+    });
+}
+
+// Простая инициализация кнопок установки без анимаций
+function initializeSimpleInstallButtons() {
+    const buttons = document.querySelectorAll('.install-btn');
+    // Не добавляем пульсацию и сложные эффекты
+}
+
+// Для совместимости оставляем пустые функции
+function parallaxEffect() {}
+function scrollAnimation() {}
+function animateInfoBox() {}
+function animateLogo() {}
+function createParticles() {}
+
+// Безопасная версия параллакса только для фона
+function safeParallaxEffect(e) {
+    const stars = document.querySelector('.twinkling');
+    if (stars) {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        stars.style.backgroundPosition = `${x * 10}px ${y * 10}px`;
+    }
+}
+
+// Улучшенная анимация при скролле - более быстрая и плавная
+function enhancedScrollAnimation() {
+    const elements = document.querySelectorAll('.source-card, .info-box');
+    
+    elements.forEach(element => {
+        if (element) {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.style.transform = 'translateY(0)';
+                element.style.opacity = '1';
+            } else {
+                element.style.transform = 'translateY(10px)';
+                element.style.opacity = '0.9';
+            }
+        }
+    });
+}
+
+// Улучшенные карточки с мягкими эффектами при наведении
+function initializeEnhancedCards() {
+    const cards = document.querySelectorAll('.source-card');
+    
+    cards.forEach((card) => {
+        // Обеспечиваем полную видимость карточек
+        card.style.opacity = '1';
+        card.style.transform = 'none';
+        
+        // Улучшенные эффекты при наведении
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-15px) scale(1.03)';
+            card.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.3)';
+            card.style.borderColor = 'var(--accent-color)';
+            
+            // Анимация иконки
+            const icon = card.querySelector('.source-icon i');
+            if (icon) icon.style.animation = 'pulse 1.5s infinite';
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0) scale(1)';
+            card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            card.style.borderColor = 'var(--border-color)';
+            
+            // Отключение анимации иконки
+            const icon = card.querySelector('.source-icon i');
+            if (icon) icon.style.animation = 'none';
+        });
+    });
+}
+
+// Немедленная анимация инфо-блока без задержек
+function animateInfoBoxImmediate() {
+    const infoBox = document.querySelector('.info-box');
+    if (infoBox) {
+        infoBox.style.opacity = '1';
+        infoBox.style.transform = 'translateY(0)';
+        infoBox.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+    }
+}
 
 // Эффект параллакса
 function parallaxEffect(e) {
+    // Отключаем параллакс-эффект, который мог вызывать проблемы с нижней частью страницы
+    // Комментируем предыдущий код для возможного будущего использования
+    /*
     this.querySelectorAll('.hero-content h1, .hero-content p, .source-card').forEach(element => {
         const speed = element.getAttribute('data-speed') || 3;
         const x = (window.innerWidth - e.pageX * speed) / 150;
@@ -33,6 +144,17 @@ function parallaxEffect(e) {
         
         element.style.transform = `translateX(${x}px) translateY(${y}px)`;
     });
+    */
+    
+    // Вместо этого добавим более мягкий эффект, который не будет влиять на положение элементов
+    // и не вызовет проблем с отображением нижней части страницы
+    const stars = document.querySelector('.twinkling');
+    if (stars) {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        stars.style.backgroundPosition = `${x * 10}px ${y * 10}px`;
+    }
 }
 
 // Анимация скролла
@@ -40,11 +162,14 @@ function scrollAnimation() {
     const elements = document.querySelectorAll('.source-card, .btn, .info-box, .contact-form, .thank-you-container');
     
     elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150;
-        
-        if (elementTop < window.innerHeight - elementVisible) {
-            element.classList.add('show');
+        // Проверяем, существует ли элемент перед работой с ним
+        if (element) {
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < window.innerHeight - elementVisible) {
+                element.classList.add('show');
+            }
         }
     });
 }
@@ -112,34 +237,6 @@ function initializeButtonEffects() {
                 ripple.remove();
             }, 600);
         });
-    });
-}
-
-// Анимация для информационного блока
-function animateInfoBox() {
-    const infoBox = document.querySelector('.info-box');
-    if (infoBox) {
-        infoBox.style.opacity = '0';
-        infoBox.style.transform = 'translateY(20px)';
-        
-        // Анимация появления с задержкой
-        setTimeout(() => {
-            infoBox.style.transition = 'all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            infoBox.style.opacity = '1';
-            infoBox.style.transform = 'translateY(0)';
-        }, 800);
-    }
-}
-
-// Анимация для логотипа
-function animateLogo() {
-    const logo = document.querySelector('.logo-text');
-    logo.addEventListener('mouseover', () => {
-        logo.style.animation = 'glow 1.5s ease-in-out infinite alternate';
-    });
-    
-    logo.addEventListener('mouseout', () => {
-        logo.style.animation = 'none';
     });
 }
 
