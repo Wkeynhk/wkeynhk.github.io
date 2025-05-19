@@ -102,14 +102,7 @@
         <section class="contact-section">
             <h1>Предложить сайт</h1>
             
-            <form id="contactForm" class="contact-form" action="https://formsubmit.co/wkeynhk@mail.ru" method="POST">
-                <!-- Скрытые поля для FormSubmit -->
-                <input type="hidden" name="_subject" value="Новое предложение сайта - Wkeynhk Source">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_next" value="https://wkeynhk.github.io/thanks.html">
-                <input type="hidden" name="_autoresponse" value="Спасибо за ваше предложение! Мы получили его и рассмотрим в ближайшее время.">
-                
+            <form id="contactForm" class="contact-form" onsubmit="return false;">
                 <div class="form-group">
                     <label for="nickname">Ваш никнейм в Discord</label>
                     <input type="text" id="nickname" name="nickname" required placeholder="Введите ваш никнейм в Discord">
@@ -125,7 +118,7 @@
                     <textarea id="message" name="message" rows="5" placeholder="Дополнительная информация..."></textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                <button type="button" class="btn btn-primary submit-btn" id="submitBtn">
                     <i class="fas fa-paper-plane"></i> Отправить
                 </button>
             </form>
@@ -145,6 +138,7 @@
     </footer>
 
     <script src="animations.js"></script>
+    <script src="telegram-form.js"></script>
     <script>
         // Функция для показа уведомления
         function showNotification(message, type = 'success') {
@@ -177,13 +171,12 @@
             }, 3000);
         }
 
-        // Проверка обязательных полей перед отправкой
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        // Обработчик кнопки отправки
+        document.getElementById('submitBtn').addEventListener('click', function() {
             const nickname = document.getElementById('nickname').value;
             if (!nickname) {
-                e.preventDefault();
                 showNotification('Пожалуйста, укажите ваш никнейм в Discord', 'error');
-                return false;
+                return;
             }
             
             // Показываем уведомление об отправке
@@ -194,8 +187,35 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
             submitBtn.disabled = true;
             
-            // Продолжаем отправку формы
-            return true;
+            // Создаем FormData из формы
+            const form = document.getElementById('contactForm');
+            const formData = new FormData(form);
+            
+            // Отправка сообщения в Telegram через прокси (для обхода CORS)
+            sendToTelegramViaCorsProxy(formData).then(result => {
+                if (!result) {
+                    // Если отправка в Telegram не удалась, показываем уведомление об ошибке
+                    showNotification('Ошибка при отправке сообщения', 'error');
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить';
+                    submitBtn.disabled = false;
+                } else {
+                    // Если отправка успешна, показываем уведомление об успехе
+                    showNotification('Сообщение успешно отправлено', 'success');
+                    
+                    // Очищаем форму
+                    form.reset();
+                    
+                    // Перенаправляем на страницу благодарности через 1.5 секунды
+                    setTimeout(() => {
+                        window.location.href = "thanks.html";
+                    }, 1500);
+                }
+            }).catch(error => {
+                console.error('Ошибка при отправке в Telegram:', error);
+                showNotification('Ошибка при отправке сообщения', 'error');
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить';
+                submitBtn.disabled = false;
+            });
         });
         
         // Простое управление мобильным меню
