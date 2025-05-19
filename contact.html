@@ -74,6 +74,87 @@
         .nav-buttons .btn {
             min-width: 200px;
         }
+        
+        /* Стили для рекламы Telegram канала */
+        .telegram-promo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 1.5rem;
+            margin: 2rem auto 0;
+            max-width: 800px;
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .telegram-icon {
+            margin-right: 1rem;
+            font-size: 2.5rem;
+            color: #0088cc;
+            text-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
+        }
+        
+        .telegram-text {
+            flex: 1;
+            padding: 0 1rem;
+        }
+        
+        .telegram-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 0 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .telegram-description {
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .telegram-button {
+            display: inline-block;
+            background: #0088cc;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            margin-left: 1rem;
+        }
+        
+        .telegram-button:hover {
+            background: #0099e5;
+            box-shadow: 0 0 15px rgba(0, 136, 204, 0.6);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .telegram-promo {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem 1rem;
+            }
+            
+            .telegram-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .telegram-text {
+                margin-bottom: 1.5rem;
+                padding: 0;
+            }
+            
+            .telegram-button {
+                margin-left: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -133,7 +214,18 @@
 
     <footer>
         <div class="footer-content">
-            <p></p>
+            <div class="telegram-promo">
+                <div class="telegram-icon">
+                    <i class="fab fa-telegram"></i>
+                </div>
+                <div class="telegram-text">
+                    <p class="telegram-title">Подпишитесь на наш Telegram канал</p>
+                    <p class="telegram-description">Будьте в курсе обновлений и новых источников</p>
+                </div>
+                <a href="https://t.me/wkeynhksource" target="_blank" class="telegram-button">
+                    <i class="fab fa-telegram-plane"></i> Подписаться
+                </a>
+            </div>
         </div>
     </footer>
 
