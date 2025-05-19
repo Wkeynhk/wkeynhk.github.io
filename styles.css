@@ -28,6 +28,7 @@ html, body {
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch; /* Улучшает инерционную прокрутку на iOS */
     touch-action: manipulation; /* Улучшает отзывчивость на тач-устройствах */
+    overflow-x: hidden; /* Предотвращаем горизонтальную прокрутку */
 }
 
 body {
@@ -35,16 +36,13 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
-    min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
-    overflow-y: auto; /* Явно разрешаем вертикальную прокрутку */
     display: flex;
     flex-direction: column;
     opacity: 1;
     width: 100%;
-    height: auto; /* Позволяем автоматически растягиваться */
-    perspective: 1000px; /* Для 3D эффектов */
+    height: 100%; /* Фиксированная высота */
+    min-height: 100vh; /* Минимальная высота - полная высота вьюпорта */
 }
 
 /* Новый фоновый эффект - градиентные волны */
@@ -56,6 +54,7 @@ body {
     height: 100%;
     background: linear-gradient(125deg, rgba(0, 0, 0, 1), rgba(12, 12, 18, 0.95));
     z-index: -3;
+    min-height: 100vh; /* Гарантируем, что фон будет занимать как минимум высоту экрана */
 }
 
 .twinkling {
@@ -67,6 +66,7 @@ body {
     z-index: -2;
     background: radial-gradient(ellipse at bottom, rgba(0, 200, 83, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
     animation: none;
+    min-height: 100vh; /* Гарантируем, что фон будет занимать как минимум высоту экрана */
 }
 
 .twinkling::before {
@@ -229,25 +229,54 @@ nav ul.nav-menu li a.active {
 @media (max-width: 768px) {
     body {
         font-size: 15px;
-        min-height: 100%;
-        height: auto;
+        height: 100%; /* Для мобильных обязательно устанавливаем полную высоту */
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: fixed; /* Фиксируем body */
+        width: 100%; /* На полную ширину */
+        top: 0;
+        left: 0;
     }
     
     main {
-        min-height: 100%;
         flex: 1;
-        padding-bottom: 2rem;  /* Добавляем отступ внизу */
+        min-height: calc(100vh - 60px); /* Учитываем меньшую высоту хедера на мобильных */
+        height: auto;
+        overflow: auto; /* Включаем прокрутку только для основного контента */
+        -webkit-overflow-scrolling: touch; /* Для более плавной прокрутки на iOS */
     }
     
     .stars, .twinkling {
-        min-height: 100vh;
+        position: fixed; /* Фиксированное позиционирование гарантирует, что фон занимает всю область */
         height: 100%;
-        position: fixed;  /* Фиксируем фон на мобильных */
-        width: 100vw;  /* Полная ширина экрана */
+        min-height: 100vh;
+        width: 100vw;
     }
     
     .source-section {
-        padding-bottom: 2rem;  /* Добавляем дополнительный отступ */
+        flex: 1;
+        min-height: calc(100vh - 60px);
+        padding-bottom: 3rem; /* Увеличиваем отступ внизу */
+        overflow-y: auto; /* Разрешаем прокрутку контента */
+    }
+    
+    .source-container {
+        margin-bottom: 2rem;
+        display: block; /* Изменяем отображение на блочное для мобильных */
+    }
+    
+    .source-card {
+        margin-bottom: 2rem; /* Добавляем отступ между карточками */
+    }
+    
+    /* Исправляем проблему прокрутки */
+    html {
+        overflow-y: hidden; /* Отключаем скролл на html */
+        height: -webkit-fill-available; /* Для iOS Safari */
+    }
+    
+    body {
+        min-height: -webkit-fill-available; /* Для iOS Safari */
     }
     
     header {
@@ -493,7 +522,6 @@ main {
     flex-direction: column;
     position: relative;
     overflow-x: hidden;
-    overflow-y: visible; /* Разрешаем вертикальную прокрутку */
     flex: 1;
 }
 
@@ -1122,39 +1150,25 @@ main {
 
 /* Секция источники - обновленный дизайн */
 .source-section {
-    padding: 3rem 1rem;
-    margin-bottom: 3rem; /* Увеличиваем отступ снизу */
-    flex: 1;
-    text-align: center;
+    flex: 1; /* Секция растягивается, чтобы заполнить доступное пространство */
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
     position: relative;
+    z-index: 1; /* Убеждаемся, что контент выше фона */
+    text-align: center; /* Центрируем текст */
+    min-height: calc(100vh - 80px); /* Минимальная высота равна высоте экрана минус высота шапки */
 }
 
 .source-section h1 {
-    font-size: 3rem;
-    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
     position: relative;
     display: inline-block;
-    background: linear-gradient(45deg, var(--primary-color) 30%, var(--accent-color) 70%);
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
     text-transform: uppercase;
-    animation: gradientMove 8s infinite alternate;
-}
-
-.source-section h1::after {
-    content: '';
-    position: absolute;
-    bottom: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: var(--cyber-gradient);
-    border-radius: 2px;
-    box-shadow: 0 0 15px rgba(0, 200, 83, 0.5);
+    text-align: center;
+    width: 100%;
 }
 
 .source-container {
@@ -1168,7 +1182,7 @@ main {
     z-index: 2;
     opacity: 1;
     transition: opacity 0.3s ease;
-    min-height: 350px; /* Минимальная высота для карточек */
+    min-height: auto; /* Убираем минимальную высоту, чтобы контейнер подстраивался под содержимое */
 }
 
 /* Стили для контактной формы */
