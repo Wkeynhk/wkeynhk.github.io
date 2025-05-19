@@ -24,6 +24,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Мгновенно отображаем все элементы
     showAllElementsImmediately();
+    
+    // Добавляем красивые и безопасные анимации, которые не мешают прокрутке
+    
+    // Плавная анимация для всех существующих элементов при запуске
+    showWithSafeAnimation();
+    
+    // Эффекты наведения для кнопок и карточек
+    initializeHoverEffects();
+    
+    // Добавляем анимации интерактивности, которые срабатывают только при действиях пользователя
+    initializeInteractiveEffects();
+    
+    // Дополнительные анимации для улучшения внешнего вида без нагрузки на производительность
+    addSubtleAnimations();
+    
+    // Проверяем, что прокрутка работает правильно
+    ensureScrollFunctionality();
 });
 
 // Максимально упрощенная функция отображения элементов
@@ -342,4 +359,165 @@ style.textContent = `
     }
 `;
 
-document.head.appendChild(style); 
+document.head.appendChild(style);
+
+// Безопасная анимация для элементов при загрузке
+function showWithSafeAnimation() {
+    // Устанавливаем 100% видимость для всех элементов
+    document.querySelectorAll('.source-card, .btn, .info-box, .contact-form, .thank-you-container').forEach(element => {
+        if (element) {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        }
+    });
+    
+    // Добавляем анимации для элементов, которые уже видны на экране
+    // Это безопасно, так как элемент уже виден, мы просто добавляем визуальный эффект
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.source-card');
+        cards.forEach((card, index) => {
+            // Небольшая пульсация карточек с задержкой
+            setTimeout(() => {
+                card.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    card.style.transform = 'scale(1)';
+                }, 200);
+            }, index * 150);
+        });
+    }, 300);
+}
+
+// Эффекты наведения для интерактивных элементов
+function initializeHoverEffects() {
+    // Эффекты для карточек
+    const cards = document.querySelectorAll('.source-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-8px)';
+            card.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.3)';
+            card.style.borderColor = 'var(--accent-color)';
+            
+            // Подсветка иконки
+            const icon = card.querySelector('.source-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1.1)';
+                icon.style.boxShadow = '0 10px 25px rgba(0, 200, 83, 0.3)';
+            }
+        });
+        
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+            card.style.borderColor = 'var(--border-color)';
+            
+            // Возврат иконки в нормальное состояние
+            const icon = card.querySelector('.source-icon');
+            if (icon) {
+                icon.style.transform = 'scale(1)';
+                icon.style.boxShadow = '';
+            }
+        });
+    });
+    
+    // Эффект пульсации для кнопок установки
+    const installButtons = document.querySelectorAll('.install-btn');
+    installButtons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            button.style.transform = 'translateY(-5px) scale(1.03)';
+            button.style.boxShadow = '0 10px 20px rgba(0, 200, 83, 0.4)';
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'translateY(0) scale(1)';
+            button.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.2)';
+        });
+    });
+}
+
+// Интерактивные анимации, которые запускаются по действиям пользователя
+function initializeInteractiveEffects() {
+    // Анимация эффекта нажатия для всех кнопок
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('mousedown', () => {
+            button.style.transform = 'translateY(-1px)';
+            button.style.boxShadow = '0 3px 8px rgba(0, 0, 0, 0.2)';
+        });
+        
+        button.addEventListener('mouseup', () => {
+            button.style.transform = '';
+            button.style.boxShadow = '';
+        });
+    });
+    
+    // Эффект для логотипа при наведении
+    const logo = document.querySelector('.logo-text');
+    if (logo) {
+        logo.addEventListener('mouseenter', () => {
+            logo.style.textShadow = '0 0 10px rgba(0, 200, 83, 0.8), 0 0 20px rgba(0, 200, 83, 0.5)';
+        });
+        
+        logo.addEventListener('mouseleave', () => {
+            logo.style.textShadow = '';
+        });
+    }
+}
+
+// Добавление тонких анимаций для улучшения внешнего вида
+function addSubtleAnimations() {
+    // Анимация подсветки для иконки в source-card при наведении
+    document.querySelectorAll('.source-card .source-icon i').forEach(icon => {
+        // Создаем плавный эффект свечения при наведении на карточку
+        const card = icon.closest('.source-card');
+        if (card) {
+            card.addEventListener('mouseenter', () => {
+                icon.style.color = 'var(--accent-color-hover)';
+                icon.style.textShadow = '0 0 15px var(--accent-color)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                icon.style.color = '';
+                icon.style.textShadow = '';
+            });
+        }
+    });
+    
+    // Небольшая пульсация иконок в карточках (автономная)
+    document.querySelectorAll('.source-icon').forEach(icon => {
+        setInterval(() => {
+            icon.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                icon.style.transform = 'scale(1)';
+            }, 600);
+        }, 5000); // Раз в 5 секунд
+    });
+}
+
+// Проверка и обеспечение корректной работы прокрутки
+function ensureScrollFunctionality() {
+    // Убедимся, что body можно прокручивать
+    document.body.style.overflow = 'auto';
+    
+    // Проверяем, что мобильное меню не блокирует прокрутку, когда закрыто
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const menuBackdrop = document.querySelector('.menu-backdrop');
+    
+    if (menuToggle && navMenu && menuBackdrop) {
+        menuToggle.addEventListener('click', function() {
+            // Если меню открыто - запрещаем прокрутку body
+            // Если закрыто - разрешаем
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+        
+        // При закрытии меню восстанавливаем прокрутку
+        menuBackdrop.addEventListener('click', function() {
+            document.body.style.overflow = 'auto';
+        });
+        
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.body.style.overflow = 'auto';
+            });
+        });
+    }
+} 
