@@ -54,6 +54,30 @@
         .tg-icon-link i {
             filter: drop-shadow(0 0 5px rgba(0, 136, 204, 0.5));
         }
+        
+        /* Стили для иконки Telegram в шапке */
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .header-tg-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #0088cc;
+            font-size: 1.3rem;
+            margin-left: 0.6rem;
+            transition: all 0.3s ease;
+            position: relative;
+            top: 1px;
+        }
+        
+        .header-tg-icon:hover {
+            color: #0099e5;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 5px rgba(0, 136, 204, 0.5));
+        }
     </style>
 </head>
 <body>
@@ -64,6 +88,9 @@
     <header>
         <div class="logo">
             <span class="logo-text">Wkeynhk Source</span>
+            <a href="https://t.me/wkeynhksource" target="_blank" class="header-tg-icon" title="Наш Telegram канал">
+                <i class="fab fa-telegram"></i>
+            </a>
         </div>
         <div class="menu-toggle">
             <span></span>
