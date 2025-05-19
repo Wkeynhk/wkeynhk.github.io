@@ -6,6 +6,7 @@
     <title>Мои Источники</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎮</text></svg>">
     <style>
         /* Стили для навигации */
         .nav-buttons {
@@ -51,7 +52,9 @@
     
     <header>
         <div class="logo">
-            <span class="logo-text">Wkeynhk Source</span>
+            <a href="index.html" class="logo-link">
+                <span class="logo-text">Wkeynhk Source</span>
+            </a>
             <a href="https://t.me/wkeynhksource" target="_blank" class="header-tg-icon" title="Наш Telegram канал">
                 <i class="fab fa-telegram"></i>
             </a>
@@ -162,6 +165,42 @@
             }, 3000);
         }
         
+        // Функция для анимированного счетчика
+        function animateCounter(element, targetValue) {
+            const duration = 2000; // Длительность анимации в миллисекундах
+            const startTime = performance.now();
+            const startValue = parseInt(element.textContent.replace(/,/g, ''));
+            
+            function updateCounter(currentTime) {
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                
+                // Функция плавного замедления
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                
+                const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOutQuart);
+                element.textContent = currentValue.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+        
+        // Инициализируем анимации счетчиков при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Анимируем начальные значения счетчиков
+            document.querySelectorAll('.count-number').forEach(counter => {
+                const value = parseInt(counter.textContent);
+                counter.textContent = '0';
+                setTimeout(() => {
+                    animateCounter(counter, value);
+                }, 500);
+            });
+        });
+        
         // Добавляем функционал копирования
         document.querySelectorAll('.copy-btn').forEach(button => {
             button.addEventListener('click', () => {
@@ -213,8 +252,9 @@
                 
                 // Изменяем кнопку во время установки
                 const originalHTML = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Установка...';
+                button.innerHTML = '<div class="loader-circle"></div><span>Установка...</span>';
                 button.disabled = true;
+                button.classList.add('installing');
                 
                 // Запускаем установку источника
                 await installSource(url, name);
@@ -223,6 +263,7 @@
                 setTimeout(() => {
                     button.innerHTML = originalHTML;
                     button.disabled = false;
+                    button.classList.remove('installing');
                 }, 2000);
             });
         });
