@@ -250,12 +250,12 @@ nav ul.nav-menu li a.active {
     }
     
     .source-container {
-        grid-template-columns: 1fr;
         max-width: 90%;
     }
     
     .source-card {
         margin-bottom: 2rem;
+        padding: 2rem;
     }
     
     header {
@@ -776,7 +776,7 @@ main {
     border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    transform: scale(1) rotateX(0) rotateY(0);
+    transform: scale(1);
     opacity: 1;
     position: relative;
     overflow: hidden;
@@ -784,14 +784,14 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transform-style: preserve-3d;
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .source-card:hover {
-    transform: translateY(-15px) scale(1.03) rotateX(5deg) rotateY(5deg);
+    transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     border-color: var(--accent-color);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 200, 83, 0.3);
 }
 
 /* Стиль для иконок */
@@ -1060,7 +1060,6 @@ main {
 /* Улучшенная адаптивность для мобильных устройств */
 @media (max-width: 992px) {
     .source-container {
-        grid-template-columns: 1fr;
         max-width: 600px;
     }
     
@@ -1155,10 +1154,10 @@ main {
 }
 
 .source-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    max-width: 1200px;
+    max-width: 600px;
     margin: 3rem auto 0;
     padding: 0 1rem;
     position: relative;
