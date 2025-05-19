@@ -5,7 +5,7 @@ async function sendToTelegram(formData) {
         const BOT_TOKEN = '7963381947:AAFiAjpCQBqBPCLLMw8V6x1gWbW1TdleXMc';
         
         // Заменить на ваш ID чата (можно получить через бот @userinfobot)
-        const CHAT_ID = '7963381947';
+        const CHAT_ID = '1406453577';
         
         // Собираем сообщение из данных формы
         const nickname = formData.get('nickname') || 'Не указан';

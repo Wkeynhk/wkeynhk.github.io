@@ -75,85 +75,40 @@
             min-width: 200px;
         }
         
-        /* Стили для рекламы Telegram канала */
-        .telegram-promo {
+        /* Стиль для иконки Telegram в футере */
+        .footer-content {
             display: flex;
-            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            padding: 1.5rem;
-            margin: 2rem auto 0;
-            max-width: 800px;
-            background: rgba(20, 20, 35, 0.7);
-            border-radius: 15px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            padding: 1.5rem 0;
         }
         
-        .telegram-icon {
-            margin-right: 1rem;
-            font-size: 2.5rem;
+        .tg-icon-link {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
             color: #0088cc;
-            text-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
-        }
-        
-        .telegram-text {
-            flex: 1;
-            padding: 0 1rem;
-        }
-        
-        .telegram-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 0 0 0.5rem;
-            color: var(--accent-color);
-        }
-        
-        .telegram-description {
-            font-size: 0.9rem;
-            margin: 0;
-            opacity: 0.8;
-        }
-        
-        .telegram-button {
-            display: inline-block;
-            background: #0088cc;
-            color: #fff;
-            padding: 0.7rem 1.5rem;
-            border-radius: 30px;
+            background: rgba(20, 20, 35, 0.7);
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
             text-decoration: none;
-            font-weight: 500;
             transition: all 0.3s ease;
-            border: none;
-            margin-left: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            margin: 1rem 0;
         }
         
-        .telegram-button:hover {
-            background: #0099e5;
-            box-shadow: 0 0 15px rgba(0, 136, 204, 0.6);
-            transform: translateY(-2px);
+        .tg-icon-link:hover {
+            color: #fff;
+            background: #0088cc;
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
         }
         
-        @media (max-width: 768px) {
-            .telegram-promo {
-                flex-direction: column;
-                text-align: center;
-                padding: 1.5rem 1rem;
-            }
-            
-            .telegram-icon {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-            
-            .telegram-text {
-                margin-bottom: 1.5rem;
-                padding: 0;
-            }
-            
-            .telegram-button {
-                margin-left: 0;
-            }
+        .tg-icon-link i {
+            filter: drop-shadow(0 0 5px rgba(0, 136, 204, 0.5));
         }
     </style>
 </head>
@@ -214,18 +169,9 @@
 
     <footer>
         <div class="footer-content">
-            <div class="telegram-promo">
-                <div class="telegram-icon">
-                    <i class="fab fa-telegram"></i>
-                </div>
-                <div class="telegram-text">
-                    <p class="telegram-title">Подпишитесь на наш Telegram канал</p>
-                    <p class="telegram-description">Будьте в курсе обновлений и новых источников</p>
-                </div>
-                <a href="https://t.me/wkeynhksource" target="_blank" class="telegram-button">
-                    <i class="fab fa-telegram-plane"></i> Подписаться
-                </a>
-            </div>
+            <a href="https://t.me/wkeynhksource" target="_blank" class="tg-icon-link" title="Подпишитесь на наш Telegram канал">
+                <i class="fab fa-telegram"></i>
+            </a>
         </div>
     </footer>
 
