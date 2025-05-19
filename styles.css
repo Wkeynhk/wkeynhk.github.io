@@ -477,7 +477,8 @@ main {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at center, rgba(79, 79, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(ellipse at center, rgba(0, 200, 83, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    animation: pulse-hero 8s infinite alternate ease-in-out;
     pointer-events: none;
 }
 
@@ -1179,4 +1180,139 @@ footer {
     transform: scale(1.2);
     color: #0099e5;
     filter: drop-shadow(0 0 5px rgba(0, 136, 204, 0.5));
+}
+
+/* Новая красивая анимация для фона в стиле матрицы */
+.matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -4;
+    overflow: hidden;
+    opacity: 0.12; /* Низкая прозрачность, чтобы не мешать контенту */
+}
+
+.matrix-rain {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+}
+
+/* Анимированные частицы с градиентом */
+.floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -3;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, rgba(0, 200, 83, 0.8) 0%, rgba(0, 200, 83, 0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0;
+    animation: float-particle 15s infinite linear;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) translateX(0) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.2;
+    }
+    100% {
+        transform: translateY(-20vh) translateX(20vw) scale(2);
+        opacity: 0;
+    }
+}
+
+/* Улучшенная анимация для hero-секции */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0, 200, 83, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+    animation: pulse-hero 8s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes pulse-hero {
+    0% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 0.7;
+        transform: scale(1.2);
+    }
+}
+
+/* Улучшенная анимация для логотипа */
+.logo-text {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 8s ease infinite;
+}
+
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Скользящая подсветка для карточек */
+.source-card::after {
+    content: '';
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.03) 40%,
+        rgba(0, 200, 83, 0.1) 50%,
+        rgba(255, 255, 255, 0.03) 60%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(-45deg);
+    animation: card-shine 10s infinite cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes card-shine {
+    0% { top: -150%; left: -150%; }
+    100% { top: 150%; left: 150%; }
 } 

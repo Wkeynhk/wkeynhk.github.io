@@ -41,6 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Проверяем, что прокрутка работает правильно
     ensureScrollFunctionality();
+    
+    // Добавляем новые красивые анимации
+    createMatrixEffect();
+    createFloatingParticles();
 });
 
 // Максимально упрощенная функция отображения элементов
@@ -519,5 +523,113 @@ function ensureScrollFunctionality() {
                 document.body.style.overflow = 'auto';
             });
         });
+    }
+}
+
+// Создаем эффект матрицы в стиле киберпанк с зелеными элементами
+function createMatrixEffect() {
+    // Сначала создаем контейнеры для эффекта матрицы
+    const matrixBg = document.createElement('div');
+    matrixBg.classList.add('matrix-bg');
+    document.body.appendChild(matrixBg);
+    
+    const matrixRain = document.createElement('canvas');
+    matrixRain.classList.add('matrix-rain');
+    matrixBg.appendChild(matrixRain);
+    
+    // Настройка канваса
+    const ctx = matrixRain.getContext('2d');
+    matrixRain.width = window.innerWidth;
+    matrixRain.height = window.innerHeight;
+    
+    // Обработчик изменения размера окна
+    window.addEventListener('resize', () => {
+        matrixRain.width = window.innerWidth;
+        matrixRain.height = window.innerHeight;
+    });
+    
+    // Символы для "матрицы"
+    const matrixChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+    
+    // Размер шрифта и количество колонок
+    const fontSize = 14;
+    const columns = Math.floor(matrixRain.width / fontSize);
+    
+    // Массив для хранения текущей позиции Y для каждой колонки
+    const drops = [];
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * -100;
+    }
+    
+    // Функция для отрисовки "дождя из символов"
+    function drawMatrix() {
+        // Полупрозрачный черный фон для создания эффекта угасания
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, matrixRain.width, matrixRain.height);
+        
+        // Устанавливаем цвет и шрифт для символов
+        ctx.fillStyle = '#00c853'; // Зеленый цвет в соответствии с темой сайта
+        ctx.font = fontSize + 'px monospace';
+        
+        // Отрисовка символов
+        for (let i = 0; i < drops.length; i++) {
+            // Выбираем случайный символ
+            const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+            
+            // Рисуем символ
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            // Если символ достиг низа или с вероятностью 0.975, сбрасываем его в начало
+            if (drops[i] * fontSize > matrixRain.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            
+            // Двигаем символ вниз
+            drops[i]++;
+        }
+    }
+    
+    // Запускаем анимацию
+    setInterval(drawMatrix, 33); // ~30 кадров в секунду
+}
+
+// Создаем эффект плавающих частиц
+function createFloatingParticles() {
+    // Создаем контейнер для частиц
+    const particlesContainer = document.createElement('div');
+    particlesContainer.classList.add('floating-particles');
+    document.body.appendChild(particlesContainer);
+    
+    // Создаем частицы
+    const particleCount = 15; // Небольшое количество для производительности
+    
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Случайный размер
+        const size = Math.random() * 15 + 5;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // Случайное положение
+        particle.style.left = Math.random() * 100 + 'vw';
+        particle.style.top = Math.random() * 100 + 'vh';
+        
+        // Случайная длительность анимации
+        const duration = Math.random() * 10 + 15;
+        particle.style.animationDuration = duration + 's';
+        
+        // Случайная задержка для равномерного появления
+        const delay = Math.random() * 15;
+        particle.style.animationDelay = delay + 's';
+        
+        // Изменяем направление для некоторых частиц
+        if (Math.random() > 0.5) {
+            particle.style.animationDirection = 'reverse';
+        }
+        
+        // Добавляем частицу в контейнер
+        particlesContainer.appendChild(particle);
     }
 } 
